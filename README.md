@@ -8,9 +8,8 @@ Start app in dev mode:
 poetry run uvicorn src.pyback.main:app --reload
 ```
 
-Manually lint & format:
+Manually lint & format after:
 
 ```sh
-poetry run black src
-poetry run flake8 src
+poetry run pre-commit run --all-files
 ```
