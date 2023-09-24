@@ -1,5 +1,7 @@
 # pyback
 
+This FastAPI server can greet anyone and store greetings with unique id in-memory for later use.
+
 ## Commands
 
 Start app in dev mode:
