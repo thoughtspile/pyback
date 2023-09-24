@@ -17,7 +17,7 @@ black = "^23.9.1"
 pre-commit = "^3.4.0"
 
 [tool.ruff]
-select = ["E", "F", "B", "N", "S", "I"]
+select = ["E", "F", "B", "N", "S", "I", "D"]
 # Avoid enforcing line-length violations
 ignore = ["E501"]
 fixable = ["ALL"]
