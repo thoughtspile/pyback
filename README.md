@@ -30,7 +30,12 @@ poetry run dev
 Run tests:
 
 ```sh
+# All tests
 poetry run test
+# Integration tests
+poetry run test_integration
+# Unit tests
+poetry run test_unit
 ```
 
 Manually lint & format:
