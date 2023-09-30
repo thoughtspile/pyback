@@ -15,14 +15,16 @@ uvicorn = "^0.23.2"
 black = "^23.9.1"
 pre-commit = "^3.4.0"
 ruff = "^0.0.291"
+pytest = "^7.4.2"
 
 [tool.poetry.scripts]
-dev="scripts.main:dev"
+dev = "scripts.main:dev"
+test = "pytest:main"
 
 [tool.ruff]
 select = ["E", "F", "B", "N", "S", "I", "D"]
-# Avoid enforcing line-length violations
-ignore = ["E501"]
+# Avoid enforcing line-length violations and no assert
+ignore = ["E501", "S101"]
 fixable = ["ALL"]
 # Avoid trying to fix flake8-bugbear
 unfixable = ["B"]

@@ -27,6 +27,12 @@ Start app in dev mode:
 poetry run dev
 ```
 
+Run tests:
+
+```sh
+poetry run test
+```
+
 Manually lint & format:
 
 ```sh
