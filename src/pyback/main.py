@@ -1,38 +1,30 @@
 """FastAPI router module."""
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI
+from sqlalchemy.orm import Session
 
-from .models import Greeting, GreetingBuilder
+from . import database, models, schemas
+
+models.PointOfInterest.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
-storage = {}
 
 
-@app.get("/")
-async def hello(receiver: str = "World") -> Greeting:
-    """Greet someone.
-
-    - **receiver**: Who to greet.
-    """
-    return Greeting.from_receiver(receiver)
-
-
-@app.post("/greetings/")
-async def create_greeting(body: GreetingBuilder) -> Greeting:
-    """Save a greeting for later use.
-
-    - **receiver**: Who to greet.
-    """
-    greeting = Greeting.from_builder(body)
-    storage[greeting.id] = greeting
-    return greeting
+def get_db():
+    """Connect to DB."""
+    db = database.SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
-@app.get("/greetings/{id}")
-async def get_greeting(id: str) -> Greeting:
-    """Get a previously saved greeting.
-
-    - **id**: ID of the saved greeting from POST /greetings.
-    """
-    if id not in storage:
-        raise HTTPException(status_code=404, detail=f"Greetgng {id} not found")
-    return storage[id]
+@app.post("/poi/", response_model=schemas.PointOfInterest)
+async def create_poi(
+    body: schemas.PointOfInterestCreate, db: Session = Depends(get_db)
+):
+    """Save a point of intereset."""
+    db_poi = models.PointOfInterest(**body.model_dump())
+    db.add(db_poi)
+    db.commit()
+    db.refresh(db_poi)
+    return db_poi

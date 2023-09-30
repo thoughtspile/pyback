@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.10"
 fastapi = "^0.103.1"
 uvicorn = "^0.23.2"
+sqlalchemy = "^2.0.21"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.9.1"
@@ -22,7 +23,7 @@ dev = "scripts.main:dev"
 test = "pytest:main"
 
 [tool.ruff]
-select = ["E", "F", "B", "N", "S", "I", "D"]
+select = ["E", "F", "N", "S", "I", "D"]
 # Avoid enforcing line-length violations and no assert
 ignore = ["E501", "S101"]
 fixable = ["ALL"]

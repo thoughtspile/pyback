@@ -1,28 +1,20 @@
-"""Models for the hello app."""
+"""Database models for suggestor app."""
 
-from uuid import uuid4
+from sqlalchemy import Boolean, Column, Float, Integer, Text
 
-from pydantic import BaseModel
-
-
-class GreetingBuilder(BaseModel):
-    """The data to build a greeting."""
-
-    receiver: str
+from .database import Base
 
 
-class Greeting(BaseModel):
-    """A hello for someone."""
+class PointOfInterest(Base):
+    """Point of interest DB model."""
 
-    message: str
-    id: str | None = None
+    __tablename__ = "points_of_intereset"
 
-    @staticmethod
-    def from_builder(builder: GreetingBuilder):
-        """Create greeting with random id from the data specified."""
-        return Greeting(message=f"Hello, {builder.receiver}", id=str(uuid4()))
+    id = Column(Integer, primary_key=True, index=True)
+    is_active = Column(Boolean, default=True)
 
-    @staticmethod
-    def from_receiver(receiver: str):
-        """Create anonymous greeting for the receiver."""
-        return Greeting(message=f"Hello, {receiver}")
+    title = Column(Text)
+    description = Column(Text)
+
+    lat = Column(Float)
+    lon = Column(Float)
