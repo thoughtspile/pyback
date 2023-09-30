@@ -24,7 +24,7 @@ Happy hacking!
 Start app in dev mode:
 
 ```sh
-poetry run uvicorn src.pyback.main:app --reload
+poetry run dev
 ```
 
 Manually lint & format:

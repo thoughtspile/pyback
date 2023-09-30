@@ -16,6 +16,9 @@ black = "^23.9.1"
 pre-commit = "^3.4.0"
 ruff = "^0.0.291"
 
+[tool.poetry.scripts]
+dev="scripts.main:dev"
+
 [tool.ruff]
 select = ["E", "F", "B", "N", "S", "I", "D"]
 # Avoid enforcing line-length violations
