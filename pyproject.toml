@@ -17,10 +17,12 @@ black = "^23.9.1"
 pre-commit = "^3.4.0"
 ruff = "^0.0.291"
 pytest = "^7.4.2"
+httpx = "^0.25.0"
 
 [tool.poetry.scripts]
 dev = "scripts.main:dev"
 test = "pytest:main"
+test_integration = "scripts.main:test_integration"
 
 [tool.ruff]
 select = ["E", "F", "N", "S", "I", "D"]
