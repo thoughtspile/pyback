@@ -20,7 +20,7 @@ def lookup_rect(pivot: Point, km=5) -> GeoRect:
     start = geopy.point.Point(pivot.lat, pivot.lon)
     d = distance.geodesic(kilometers=min(km, MAX_LOOKUP_KM))
     ne = d.destination(point=start, bearing=45)
-    sw = d.destination(point=start, bearing=135)
+    sw = d.destination(point=start, bearing=-135)
     return GeoRect(min_lat=sw[0], min_lon=sw[1], max_lat=ne[0], max_lon=ne[1])
 
 

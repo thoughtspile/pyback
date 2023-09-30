@@ -46,6 +46,7 @@ async def suggest_poi(lat: float, lon: float, db: Session = Depends(get_db)):
     """Suggest closest points of interest."""
     pivot = schemas.Point(lat=lat, lon=lon)
     lookup_coords = geo_helpers.lookup_rect(pivot)
+    print(lookup_coords)
     db_suggest = (
         db.query(models.PointOfInterest)
         .filter(

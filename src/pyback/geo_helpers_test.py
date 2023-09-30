@@ -62,8 +62,8 @@ def test_lookup_rect_normal():
     rect = lookup_rect(pivot, 2)
     assert is_close(rect.min_lat, 59.90523)
     assert is_close(rect.max_lat, 59.93062)
-    assert is_close(rect.min_lon, 30.31199)
-    assert is_close(rect.min_lon, 30.31201)
+    assert is_close(rect.min_lon, 30.26145)
+    assert is_close(rect.max_lon, 30.31201)
 
 
 def test_lookup_rect_huge():
