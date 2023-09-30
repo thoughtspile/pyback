@@ -10,6 +10,11 @@ def dev():
     uvicorn.run("src.pyback.main:app", reload=True)
 
 
+def test_unit():
+    """Run pytest units from poetry script."""
+    sys.exit(pytest.main(["-v", "-m", "not integration"]))
+
+
 def test_integration():
-    """Run pytest suite from poetry script."""
+    """Run integration suite from poetry script."""
     sys.exit(pytest.main(["-v", "-m", "integration"]))

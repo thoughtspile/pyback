@@ -10,6 +10,15 @@ class Point(BaseModel):
     lon: float
 
 
+class GeoRect(BaseModel):
+    """Geographinc rect."""
+
+    min_lat: float
+    max_lat: float
+    min_lon: float
+    max_lon: float
+
+
 class PointOfInterestBase(Point):
     """Point of interest (tagged and descibed)."""
 

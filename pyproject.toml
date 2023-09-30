@@ -11,6 +11,7 @@ python = "^3.10"
 fastapi = "^0.103.1"
 uvicorn = "^0.23.2"
 sqlalchemy = "^2.0.21"
+geopy = "^2.4.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.9.1"
@@ -22,6 +23,7 @@ httpx = "^0.25.0"
 [tool.poetry.scripts]
 dev = "scripts.main:dev"
 test = "pytest:main"
+test_unit = "scripts.main:test_unit"
 test_integration = "scripts.main:test_integration"
 
 [tool.ruff]
