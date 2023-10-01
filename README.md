@@ -32,6 +32,8 @@ Run tests:
 ```sh
 # All tests
 poetry run test
+# Report coverage
+poetry run test --cov=pyback --cov-report=html
 # Integration tests
 poetry run test_integration
 # Unit tests

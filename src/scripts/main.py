@@ -12,9 +12,9 @@ def dev():
 
 def test_unit():
     """Run pytest units from poetry script."""
-    sys.exit(pytest.main(["-v", "-m", "not integration"]))
+    sys.exit(pytest.main(["-v", "--cov=pyback", "-m", "not integration"]))
 
 
 def test_integration():
     """Run integration suite from poetry script."""
-    sys.exit(pytest.main(["-v", "-m", "integration"]))
+    sys.exit(pytest.main(["-v", "--cov=pyback", "-m", "integration"]))
