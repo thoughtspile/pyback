@@ -1,38 +1,41 @@
 """FastAPI router module."""
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy.orm import Session
 
-from .models import Greeting, GreetingBuilder
+from . import crud, database, schemas
+
+database.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
-storage = {}
 
 
-@app.get("/")
-async def hello(receiver: str = "World") -> Greeting:
-    """Greet someone.
-
-    - **receiver**: Who to greet.
-    """
-    return Greeting.from_receiver(receiver)
-
-
-@app.post("/greetings/")
-async def create_greeting(body: GreetingBuilder) -> Greeting:
-    """Save a greeting for later use.
-
-    - **receiver**: Who to greet.
-    """
-    greeting = Greeting.from_builder(body)
-    storage[greeting.id] = greeting
-    return greeting
+def get_db():
+    """Connect to DB."""
+    db = database.SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
-@app.get("/greetings/{id}")
-async def get_greeting(id: str) -> Greeting:
-    """Get a previously saved greeting.
+@app.post("/poi/", response_model=schemas.PointOfInterest)
+async def create_poi(
+    body: schemas.PointOfInterestCreate, db: Session = Depends(get_db)
+):
+    """Save a point of intereset."""
+    return crud.create_poi(body, db)
 
-    - **id**: ID of the saved greeting from POST /greetings.
-    """
-    if id not in storage:
-        raise HTTPException(status_code=404, detail=f"Greetgng {id} not found")
-    return storage[id]
+
+@app.get("/poi/{id}", response_model=schemas.PointOfInterest)
+async def get_poi(id: int, db: Session = Depends(get_db)):
+    """Get point of intereset by id."""
+    db_poi = crud.get_poi(id, db)
+    if db_poi is None:
+        raise HTTPException(status_code=404, detail="PoI not found")
+    return db_poi
+
+
+@app.get("/suggest", response_model=list[schemas.PointOfInterest])
+async def suggest_poi(lat: float, lon: float, db: Session = Depends(get_db)):
+    """Suggest closest points of interest."""
+    return crud.suggest_poi(pivot=schemas.Point(lat=lat, lon=lon), db=db)

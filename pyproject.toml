@@ -10,16 +10,27 @@ readme = "README.md"
 python = "^3.10"
 fastapi = "^0.103.1"
 uvicorn = "^0.23.2"
+sqlalchemy = "^2.0.21"
+geopy = "^2.4.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.9.1"
 pre-commit = "^3.4.0"
 ruff = "^0.0.291"
+pytest = "^7.4.2"
+httpx = "^0.25.0"
+pytest-cov = "^4.1.0"
+
+[tool.poetry.scripts]
+dev = "scripts.main:dev"
+test = "pytest:main"
+test_unit = "scripts.main:test_unit"
+test_integration = "scripts.main:test_integration"
 
 [tool.ruff]
-select = ["E", "F", "B", "N", "S", "I", "D"]
-# Avoid enforcing line-length violations
-ignore = ["E501"]
+select = ["E", "F", "N", "S", "I", "D"]
+# Avoid enforcing line-length violations and no assert
+ignore = ["E501", "S101"]
 fixable = ["ALL"]
 # Avoid trying to fix flake8-bugbear
 unfixable = ["B"]
