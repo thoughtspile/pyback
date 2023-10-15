@@ -1,8 +1,8 @@
 """FastAPI router module."""
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
-from . import crud, database, schemas
+from . import crud, database, s3, schemas
 
 database.Base.metadata.create_all(bind=database.engine)
 
@@ -39,3 +39,12 @@ async def get_poi(id: int, db: Session = Depends(get_db)):
 async def suggest_poi(lat: float, lon: float, db: Session = Depends(get_db)):
     """Suggest closest points of interest."""
     return crud.suggest_poi(pivot=schemas.Point(lat=lat, lon=lon), db=db)
+
+
+@app.post("/upload")
+async def upload_file(file: UploadFile):
+    """Upload file and return S3 key."""
+    key = s3.upload_file(file.file, file.filename)
+    if key:
+        return {"key": key}
+    raise HTTPException(status_code=500)

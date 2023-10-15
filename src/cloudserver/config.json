@@ -1,0 +1,5 @@
+{
+  "restEndpoints": {
+    "s3-server": "us-east-1"
+  }
+}
