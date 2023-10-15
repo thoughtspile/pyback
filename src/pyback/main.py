@@ -44,6 +44,7 @@ async def suggest_poi(lat: float, lon: float, db: Session = Depends(get_db)):
 @app.post("/upload")
 async def upload_file(file: UploadFile):
     """Upload file and return S3 key."""
+    print(file)
     key = s3.upload_file(file.file, file.filename)
     if key:
         return {"key": key}
