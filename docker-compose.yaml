@@ -1,6 +1,16 @@
 version: "3.9"
 
 services:
+  gateway:
+    image: traefik:v2.10
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   api:
     build: .
     volumes:
@@ -12,6 +22,8 @@ services:
       - AWS_SECRET_ACCESS_KEY=verySecretKey1
       - AWS_S3_BUCKET_NAME=images
     command: uvicorn app.main:app --host 0.0.0.0 --port 80 --reload
+    labels:
+      - traefik.http.routers.api.rule=Host(`api.localhost`)
     ports:
       - 8001:80
     restart: always
@@ -31,6 +43,8 @@ services:
     hostname: s3-server
     ports:
       - 8002:8000
+    labels:
+      - traefik.http.routers.s3.rule=Host(`images.localhost`)
     volumes:
       - ./src/cloudserver/config.json:/usr/src/app/config.json
     environment:
