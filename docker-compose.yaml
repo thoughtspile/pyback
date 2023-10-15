@@ -21,3 +21,11 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=test_db
+
+  s3:
+    image: zenko/cloudserver
+    hostname: s3-server
+    ports:
+      - 8002:8000
+    environment:
+      - S3BACKEND=mem
