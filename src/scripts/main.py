@@ -2,19 +2,13 @@
 import sys
 
 import pytest
-import uvicorn
-
-
-def dev():
-    """Launch uvicorn from poetry script."""
-    uvicorn.run("src.pyback.main:app", reload=True)
 
 
 def test_unit():
     """Run pytest units from poetry script."""
-    sys.exit(pytest.main(["-v", "--cov=pyback", "-m", "not integration"]))
+    sys.exit(pytest.main(["src/pyback", "-v", "--cov=pyback"]))
 
 
 def test_integration():
     """Run integration suite from poetry script."""
-    sys.exit(pytest.main(["-v", "--cov=pyback", "-m", "integration"]))
+    sys.exit(pytest.main(["tests", "-v"]))

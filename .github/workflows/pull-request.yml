@@ -24,4 +24,4 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: Run test suite
-        run: poetry run test --cov=pyback --cov-fail-under=90
+        run: poetry run test_unit

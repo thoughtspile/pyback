@@ -17,23 +17,23 @@ Happy hacking!
 
 ## Commands
 
-Start app in dev mode on [http://localhost:8001](http://localhost:8001):
+Start app in dev mode:
 
 ```sh
 docker-compose up --build
 ```
 
+API runs on [http://api.localhost](http://api.localhost)
+
 Run tests:
 
 ```sh
-# All tests
-poetry run test
-# Report coverage
-poetry run test --cov=pyback --cov-report=html
-# Integration tests
-poetry run test_integration
 # Unit tests
 poetry run test_unit
+
+# Integration tests
+docker-compose up -d
+poetry run test_integration
 ```
 
 Manually lint & format:

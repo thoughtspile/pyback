@@ -27,7 +27,6 @@ pytest-cov = "^4.1.0"
 
 [tool.poetry.scripts]
 dev = "scripts.main:dev"
-test = "pytest:main"
 test_unit = "scripts.main:test_unit"
 test_integration = "scripts.main:test_integration"
 
