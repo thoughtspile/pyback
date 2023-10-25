@@ -4,13 +4,9 @@ This FastAPI server can greet anyone and store greetings with unique id in-memor
 
 ## Local development
 
-Clone the repo, then install [poetry:](https://python-poetry.org/)
+Clone the repo, then install [poetry](https://python-poetry.org/) and [docker](https://docs.docker.com/engine/install/).
 
-```sh
-curl -sSL https://install.python-poetry.org | python3 -
-```
-
-And configure the project:
+Configure the project:
 
 ```sh
 poetry install
@@ -24,20 +20,20 @@ Happy hacking!
 Start app in dev mode:
 
 ```sh
-poetry run dev
+docker-compose up --build
 ```
+
+API runs on [http://api.localhost](http://api.localhost)
 
 Run tests:
 
 ```sh
-# All tests
-poetry run test
-# Report coverage
-poetry run test --cov=pyback --cov-report=html
-# Integration tests
-poetry run test_integration
 # Unit tests
 poetry run test_unit
+
+# Integration tests
+docker-compose up -d
+poetry run test_integration
 ```
 
 Manually lint & format:

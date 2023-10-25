@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  gateway:
+    image: traefik:v2.10
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  api:
+    build: .
+    volumes:
+      - ./src/pyback:/app/app
+    environment:
+      - POI_DB_URL=postgresql://postgres:postgres@poi-db:5432/test_db
+      - AWS_URL=http://s3-server:8000
+      - AWS_ACCESS_KEY_ID=accessKey1
+      - AWS_SECRET_ACCESS_KEY=verySecretKey1
+      - AWS_S3_BUCKET_NAME=images
+    command: uvicorn app.main:app --host 0.0.0.0 --port 80 --reload
+    labels:
+      - traefik.http.routers.api.rule=Host(`api.localhost`)
+    ports:
+      - 8001:80
+    restart: always
+
+  db:
+    image: postgres
+    hostname: poi-db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test_db
+
+  s3:
+    image: zenko/cloudserver
+    hostname: s3-server
+    ports:
+      - 8002:8000
+    labels:
+      - traefik.http.routers.s3.rule=Host(`images.localhost`)
+    volumes:
+      - ./src/cloudserver/config.json:/usr/src/app/config.json
+    environment:
+      - S3BACKEND=mem
